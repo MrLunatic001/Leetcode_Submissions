@@ -1,25 +1,18 @@
 class Solution:
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
-        self.totalSum = sum(nums)
-        memo = [
-            [float("-inf")] * (2*self.totalSum + 1) for _ in range(len(nums))
-        ]
+        totalSum = sum(nums)
+        dp = []
+        for _ in range(len(nums)):
+            dp.append([0]*(2*totalSum+1))
+        dp[0][nums[0] + totalSum] = 1
+        dp[0][-nums[0] + totalSum] += 1
+        for i in range(1,len(nums)):
+            for sumVal in range(-totalSum,totalSum + 1):
+                if dp[i-1][sumVal + totalSum] > 0:
+                    dp[i][sumVal + totalSum + nums[i]] += dp[i-1][sumVal+totalSum]
+                    dp[i][sumVal + totalSum - nums[i]] += dp[i-1][sumVal + totalSum]
 
-        return self.calculateWays(nums,0,0,target,memo)
-
-    def calculateWays(self,nums,currentIndex,currentSum,target,memo):
-        if currentIndex == len(nums):
-            return 1 if currentSum == target else 0
+        if abs(target) > totalSum:
+            return 0
         else:
-            if memo[currentIndex][currentSum + self.totalSum] != float("-inf"):
-                return memo[currentIndex][currentSum + self.totalSum]
-            add = self.calculateWays(nums,currentIndex + 1,currentSum + nums[currentIndex],target,memo)
-            subtract = self.calculateWays(
-                nums,
-                currentIndex + 1,
-                currentSum - nums[currentIndex],
-                target,
-                memo,
-            )
-            memo[currentIndex][currentSum + self.totalSum] = add + subtract
-            return memo[currentIndex][currentSum + self.totalSum]
+            return dp[len(nums)-1][target + totalSum]
