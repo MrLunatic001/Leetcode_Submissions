@@ -1,6 +1,5 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        
         if len(nums) == 0:
             return 0
         if len(nums) == 1:
@@ -9,10 +8,11 @@ class Solution:
         dpCurr = 0
         dpPrev = 0
         for num in nums:
-            tmp = dpCurr
+            temp = dpCurr
             dpCurr = max(dpPrev + num, dpCurr)
-            dpPrev = tmp
+            dpPrev = temp
 
         return dpCurr
+        
 
         
