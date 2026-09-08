@@ -9,20 +9,16 @@ class Solution:
             "D" : 500,
             "M" : 1000
         }
-        ans = 0
+        total = 0
+        prev_value = 0
         
-        s = list(s)
-        prev = s[0]
-        for i in range(len(s)):
-            cur = s[i]
-            if m[cur] <= m[prev]:
-                ans += m[cur]
+        for char in reversed(s):
+            cur = m[char]
+            if cur < prev_value:
+                total -= cur
             else:
-                ans -= m[prev]
-                ans += m[cur] - m[prev]
+                total += cur
 
-            prev = cur
+            prev_value = cur
 
-
-
-        return ans
+        return total
