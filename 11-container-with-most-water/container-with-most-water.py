@@ -5,8 +5,8 @@ class Solution:
         maxArea = 0
 
         while left < right:
-            currentArea = min(height[left],height[right]) * (right - left)
-            maxArea = max(maxArea,currentArea)
+            currentArea = min(height[left], height[right]) * (right - left)
+            maxArea = max(currentArea, maxArea)
 
             if height[left] < height[right]:
                 left += 1
